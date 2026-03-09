@@ -1,0 +1,52 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Driver Report</PageTitle>
+
+<main class="container text-center mt-5 pt-4">
+    <header class="mb-5">
+        <h1 class="display-4 fw-bold text-dark">Driver Report</h1>
+        <p class="text-muted fs-5">Check your ride before you get inside.</p>
+    </header>
+
+    <section class="search-wrapper mx-auto">
+        <div class="input-group input-group-lg shadow-sm mb-4 rounded-pill overflow-hidden">
+            <input type="text" class="form-control border-0 px-4" placeholder="License Plate or Name..."
+                   @bind="searchQuery" @bind:event="oninput" @onkeyup="HandleEnterKey" aria-label="Search Drivers" />
+            <button class="btn btn-dark px-4" @onclick="Search">Search</button>
+        </div>
+    </section>
+
+    @if (searchPerformed)
+    {
+        <section class="search-wrapper mx-auto mt-4" aria-live="polite">
+            @if (foundDriver != null)
+            {
+                <article class="card shadow border-0 rounded-4">
+                    <div class="card-body p-4 text-start d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge bg-secondary mb-2">Record Found</span>
+                            <h2 class="card-title h3 fw-bold mb-1">@foundDriver.DriverLicensePlate</h2>
+                            <p class="card-text text-muted mb-0">
+                                @(foundDriver.DriverFirstName ?? "Unknown") @(foundDriver.DriverLastName ?? "Driver")
+                            </p>
+                        </div>
+                        <button class="btn btn-danger rounded-pill px-4 shadow-sm" @onclick="() => ViewHistory(foundDriver.DriverId)">View</button>
+                    </div>
+                </article>
+            }
+            else
+            {
+                <aside class="alert alert-success shadow-sm rounded-4 text-start border-0 p-4">
+                    <h4 class="alert-heading fw-bold">No Reports Found!</h4>
+                    <p class="mb-0">This driver has a clean record in our database.</p>
+                </aside>
+            }
+        </section>
+    }
+</main>
+
+<button class="btn btn-danger rounded-circle position-fixed bottom-0 end-0 m-4 shadow-lg fab-button d-flex align-items-center justify-content-center"
+        @onclick="GoToAddReport" aria-label="Report a Driver" title="Report a Driver">
+    +
+</button>

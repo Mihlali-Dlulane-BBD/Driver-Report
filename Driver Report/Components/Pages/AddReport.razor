@@ -1,0 +1,60 @@
+﻿@page "/add-report"
+@rendermode InteractiveServer
+
+<PageTitle>Report a Driver</PageTitle>
+
+<main class="container mt-4 mb-5 form-container">
+    <header class="mb-4 text-center">
+        <h1 class="fw-bold">Report an Incident</h1>
+        <p class="text-muted">Help keep the community safe.</p>
+    </header>
+
+    <EditForm Model="@reportModel" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Driver Details</h5>
+
+                <div class="form-floating mb-3">
+                    <InputText id="licensePlate" @bind-Value="reportModel.LicensePlate" class="form-control" placeholder="ABC 123 GP" />
+                    <label for="licensePlate">License Plate *</label>
+                    <ValidationMessage For="@(() => reportModel.LicensePlate)" class="text-danger small mt-1" />
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-md-6 form-floating mb-3">
+                        <InputText id="firstName" @bind-Value="reportModel.FirstName" class="form-control" placeholder="First Name" />
+                        <label for="firstName" class="ms-2">First Name</label>
+                    </div>
+                    <div class="col-md-6 form-floating mb-3">
+                        <InputText id="lastName" @bind-Value="reportModel.LastName" class="form-control" placeholder="Last Name" />
+                        <label for="lastName" class="ms-2">Last Name</label>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-1">
+                    <InputText id="platform" @bind-Value="reportModel.Platform" class="form-control" placeholder="Uber, Bolt" />
+                    <label for="platform">Platform (e.g. Uber, Bolt)</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Incident Details</h5>
+                <div class="form-floating mb-1">
+                    <InputTextArea id="reason" @bind-Value="reportModel.Reason" class="form-control" style="height: 120px" placeholder="What happened?" />
+                    <label for="reason">What happened? *</label>
+                    <ValidationMessage For="@(() => reportModel.Reason)" class="text-danger small mt-1" />
+                </div>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-danger btn-lg rounded-pill shadow-sm fw-bold">Submit Report</button>
+            <button type="button" class="btn btn-light rounded-pill mt-2" @onclick="GoBack">Cancel</button>
+        </div>
+
+    </EditForm>
+</main>

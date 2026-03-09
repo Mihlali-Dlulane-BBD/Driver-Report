@@ -1,0 +1,8 @@
+﻿.form-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.textarea-tall {
+    height: 120px;
+}

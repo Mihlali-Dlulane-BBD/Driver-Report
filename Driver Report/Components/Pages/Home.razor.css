@@ -1,0 +1,11 @@
+﻿
+.search-wrapper {
+    max-width: 550px;
+}
+
+.fab-button {
+    width: 65px;
+    height: 65px;
+    font-size: 35px;
+    z-index: 1000;
+}

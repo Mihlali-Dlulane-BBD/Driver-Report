@@ -1,0 +1,92 @@
+﻿@page "/driver-history/{DriverId:int}"
+@rendermode InteractiveServer
+
+<PageTitle>Driver History</PageTitle>
+
+<main class="container mt-4 mb-5 history-container">
+    @if (isLoading)
+    {
+        <div class="d-flex justify-content-center mt-5">
+            <div class="spinner-border text-danger" role="status"></div>
+        </div>
+    }
+    else if (driver == null)
+    {
+        <div class="alert alert-danger shadow-sm rounded-4">Driver not found.</div>
+        <button class="btn btn-outline-dark rounded-pill" @onclick="GoBack">Back to Search</button>
+    }
+    else
+    {
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <button class="btn btn-light rounded-circle shadow-sm" @onclick="GoBack" style="width: 45px; height: 45px;">
+                &#8592;
+            </button>
+            <h1 class="h4 mb-0 fw-bold mx-auto">Driver Profile</h1>
+            <div style="width: 45px;"></div>
+        </div>
+
+        <header class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+            <div class="py-1 @(pagedData.TotalCount >= 3 ? "bg-danger" : "bg-warning")"></div>
+            <div class="card-body p-4 text-center">
+                <h2 class="display-6 fw-bold mb-1">@driver.DriverLicensePlate</h2>
+                <p class="text-muted mb-3">
+                    @(string.IsNullOrWhiteSpace(driver.DriverFirstName) ? "Unknown Driver" : $"{driver.DriverFirstName} {driver.DriverLastName}")
+                </p>
+
+                @if (pagedData.TotalCount >= 3)
+                {
+                    <span class="badge bg-danger rounded-pill px-3 py-2 fs-6 shadow-sm"><i class="bi bi-exclamation-triangle-fill me-1"></i> High Risk (@pagedData.TotalCount Reports)</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fs-6 shadow-sm"><i class="bi bi-exclamation-circle-fill me-1"></i> Caution (@pagedData.TotalCount Reports)</span>
+                }
+            </div>
+        </header>
+
+        <section aria-labelledby="history-heading">
+            <h3 id="history-heading" class="h5 fw-bold mb-3 text-muted px-2">Incident Feed</h3>
+
+            @if (!pagedData.Items.Any())
+            {
+                <p class="text-muted px-2">No incidents reported.</p>
+            }
+            else
+            {
+                <div class="list-group list-group-flush mb-4 shadow-sm border-0 rounded-4">
+                    @foreach (var report in pagedData.Items)
+                    {
+                        <article class="list-group-item p-4 border-bottom">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4 class="h6 fw-bold mb-0 text-dark">Reported Incident</h4>
+                                <time class="small text-muted fw-semibold badge bg-light text-dark">@report.ReportDate.ToString("MMM dd, yyyy")</time>
+                            </div>
+                            <p class="mb-0 text-secondary">@report.ReportReason</p>
+                        </article>
+                    }
+                </div>
+
+                @if (pagedData.TotalPages > 1)
+                {
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center pagination-sm">
+                            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                <button class="page-link rounded-start-pill px-3" @onclick="() => LoadPage(currentPage - 1)">Prev</button>
+                            </li>
+                            @for (int i = 1; i <= pagedData.TotalPages; i++)
+                            {
+                                int pageNum = i;
+                                <li class="page-item @(currentPage == pageNum ? "active" : "")">
+                                    <button class="page-link @(currentPage == pageNum ? "bg-danger border-danger text-white" : "")" @onclick="() => LoadPage(pageNum)">@pageNum</button>
+                                </li>
+                            }
+                            <li class="page-item @(currentPage == pagedData.TotalPages ? "disabled" : "")">
+                                <button class="page-link rounded-end-pill px-3" @onclick="() => LoadPage(currentPage + 1)">Next</button>
+                            </li>
+                        </ul>
+                    </nav>
+                }
+            }
+        </section>
+    }
+</main>

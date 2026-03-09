@@ -1,0 +1,27 @@
+﻿
+.history-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.nav-icon-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-spacer {
+    width: 45px;
+}
+
+
+.report-card {
+    border-left: 4px solid #dc3545;
+}
+
+.report-date {
+    font-size: 0.9em;
+    color: #6c757d;
+}

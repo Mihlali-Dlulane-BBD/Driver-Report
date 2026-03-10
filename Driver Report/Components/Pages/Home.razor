@@ -10,12 +10,40 @@
         <p class="text-muted fs-5">Check your ride before you get inside.</p>
     </header>
 
-    <section class="search-wrapper mx-auto">
-        <div class="input-group input-group-lg shadow-sm mb-4 rounded-pill overflow-hidden">
-            <input type="text" class="form-control border-0 px-4" placeholder="License Plate or Name..."
-                   @bind="searchQuery" @bind:event="oninput" @onkeyup="HandleEnterKey" aria-label="Search Drivers" />
-            <button class="btn btn-dark px-4" @onclick="Search">Search</button>
+    <div class="d-flex justify-content-center mb-3">
+        <div class="btn-group shadow-sm rounded-pill" role="group">
+            <button type="button" class="btn @(isLinkMode ? "btn-light" : "btn-dark") rounded-start-pill px-4" @onclick="() => isLinkMode = false">Manual Search</button>
+            <button type="button" class="btn @(isLinkMode ? "btn-dark" : "btn-light") rounded-end-pill px-4" @onclick="() => isLinkMode = true">Paste Ride Link</button>
         </div>
+    </div>
+
+    <section class="search-wrapper mx-auto">
+        @if (!isLinkMode)
+        {
+            <div class="input-group input-group-lg shadow-sm mb-4 rounded-pill overflow-hidden">
+                <input type="text" class="form-control border-0 px-4" placeholder="License Plate or Name..."
+                       @bind="searchQuery" @bind:event="oninput" @onkeyup="HandleEnterKey" aria-label="Search Drivers" />
+                <button class="btn btn-dark px-4" @onclick="Search">Search</button>
+            </div>
+        }
+        else
+        {
+            <div class="input-group input-group-lg shadow-sm mb-4 rounded-pill overflow-hidden border border-primary">
+                <input type="text" class="form-control border-0 px-4" placeholder="Paste Uber or Bolt link here..."
+                       @bind="rideLinkUrl" @bind:event="oninput" aria-label="Paste Link" />
+                <button class="btn btn-primary px-4 fw-bold" @onclick="AnalyzeLink">
+                    @if (isAnalyzing)
+                    {
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span class="visually-hidden" role="status">Loading...</span>
+                    }
+                    else
+                    {
+                        <span>Extract</span>
+                    }
+                </button>
+            </div>
+        }
     </section>
 
     @if (searchPerformed)

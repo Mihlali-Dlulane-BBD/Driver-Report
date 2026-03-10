@@ -1,5 +1,6 @@
 ﻿@page "/driver-history/{DriverId:int}"
 @rendermode InteractiveServer
+@using Driver_Report.Components.Shared
 
 <PageTitle>Driver History</PageTitle>
 
@@ -25,22 +26,16 @@
             <div style="width: 45px;"></div>
         </div>
 
-        <header class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
-            <div class="py-1 @(pagedData.TotalCount >= 3 ? "bg-danger" : "bg-warning")"></div>
+       <header class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+            <div class="py-1 @(pagedData.TotalCount >= 3 ? "bg-danger" : pagedData.TotalCount == 0 ? "bg-success" : "bg-warning")"></div>
             <div class="card-body p-4 text-center">
                 <h2 class="display-6 fw-bold mb-1">@driver.DriverLicensePlate</h2>
                 <p class="text-muted mb-3">
                     @(string.IsNullOrWhiteSpace(driver.DriverFirstName) ? "Unknown Driver" : $"{driver.DriverFirstName} {driver.DriverLastName}")
                 </p>
-
-                @if (pagedData.TotalCount >= 3)
-                {
-                    <span class="badge bg-danger rounded-pill px-3 py-2 fs-6 shadow-sm"><i class="bi bi-exclamation-triangle-fill me-1"></i> High Risk (@pagedData.TotalCount Reports)</span>
-                }
-                else
-                {
-                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fs-6 shadow-sm"><i class="bi bi-exclamation-circle-fill me-1"></i> Caution (@pagedData.TotalCount Reports)</span>
-                }
+                
+                <SafetyBadge KnownReportCount="@pagedData.TotalCount" />
+                
             </div>
         </header>
 

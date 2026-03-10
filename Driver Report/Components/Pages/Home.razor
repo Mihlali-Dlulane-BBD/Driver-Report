@@ -1,5 +1,6 @@
 ﻿@page "/"
 @rendermode InteractiveServer
+@using Driver_Report.Components.Shared
 
 <PageTitle>Driver Report</PageTitle>
 
@@ -25,8 +26,9 @@
                 <article class="card shadow border-0 rounded-4">
                     <div class="card-body p-4 text-start d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="badge bg-secondary mb-2">Record Found</span>
-                            <h2 class="card-title h3 fw-bold mb-1">@foundDriver.DriverLicensePlate</h2>
+                            <SafetyBadge DriverId="@foundDriver.DriverId" />
+            
+                            <h2 class="card-title h3 fw-bold mb-1 mt-2">@foundDriver.DriverLicensePlate</h2>
                             <p class="card-text text-muted mb-0">
                                 @(foundDriver.DriverFirstName ?? "Unknown") @(foundDriver.DriverLastName ?? "Driver")
                             </p>

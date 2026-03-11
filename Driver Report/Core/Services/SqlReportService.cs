@@ -13,6 +13,7 @@ namespace Driver_Report.Core.Services
         {
             _dbFactory = dbFactory;
         }
+
         public void AddReport(Report report)
         {
             using IDbConnection dbConnection = _dbFactory.CreateConnection();

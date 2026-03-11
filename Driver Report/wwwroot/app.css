@@ -58,3 +58,15 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+[data-bs-theme="dark"] .btn-danger {
+    --bs-btn-hover-bg: #b91c1c; /* Darker red when hovering */
+    --bs-btn-color: #ffffff; /* Keep text bright white */
+}
+
+
+[data-bs-theme="dark"] .btn-outline-secondary {
+    --bs-btn-color: #cbd5e1; /* Light slate text */
+    --bs-btn-border-color: #475569; /* Visible, but subtle gray border */
+    --bs-btn-hover-bg: #334155; /* Fill with dark gray on hover */
+    --bs-btn-hover-color: #ffffff; /* Text turns white on hover */

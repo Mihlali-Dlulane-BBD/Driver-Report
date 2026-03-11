@@ -1,15 +1,15 @@
-﻿@inherits LayoutComponentBase
+﻿@using Driver_Report.Components.Shared
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
 
 <div class="page">
+    <header class="d-flex justify-content-end p-3">
+       <ThemeToggle />
+    </header>
+
     <main>
-        <article class="content px-4">
+        <article class="content pb-5">
             @Body
         </article>
     </main>
-</div>
-
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
 </div>

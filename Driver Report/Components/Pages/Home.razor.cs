@@ -23,6 +23,7 @@ namespace Driver_Report.Components.Pages
         private bool isLinkMode = false;
         private string rideLinkUrl = "";
         private bool isAnalyzing = false;
+        private string? linkErrorMessage;
 
         private void Search()
         {
@@ -60,12 +61,12 @@ namespace Driver_Report.Components.Pages
             isAnalyzing = true;
             searchPerformed = false;
             foundDriver = null;
+            linkErrorMessage = null;
 
             await Task.Delay(1500);
 
             try
             {
-
                 string extractedPlate = SimulateDataExtraction(rideLinkUrl);
 
                 if (!string.IsNullOrEmpty(extractedPlate))
@@ -75,10 +76,14 @@ namespace Driver_Report.Components.Pages
                     foundDriver = ReportService.SearchDriver(extractedPlate);
                     searchPerformed = true;
                 }
+                else
+                {
+                    linkErrorMessage = "We couldn't extract a valid license plate from that link. Please ensure it is a valid ride-share tracking link, or switch to Manual Search.";
+                }
             }
             catch
             {
-
+                linkErrorMessage = "An unexpected error occurred while analyzing the link. Please try again.";
             }
             finally
             {
@@ -89,7 +94,7 @@ namespace Driver_Report.Components.Pages
         private string SimulateDataExtraction(string url)
         {
 
-            var plateRegex = new Regex(@"[A-Z]{2}\d{2}[A-Z]{2}GP", RegexOptions.IgnoreCase);
+            var plateRegex = new Regex(@"[A-Z]{2}\d{2}[A-Z]{2}", RegexOptions.IgnoreCase);
 
             var match = plateRegex.Match(url);
 
@@ -99,8 +104,8 @@ namespace Driver_Report.Components.Pages
                 return match.Value.ToUpper();
             }
 
-            // Return hard coded plate
-            return "BB22BBGP"; // Jane Smith
+
+            return string.Empty;
         }
     }
 }

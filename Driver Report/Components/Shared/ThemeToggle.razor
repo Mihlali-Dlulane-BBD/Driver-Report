@@ -1,0 +1,13 @@
+﻿@rendermode InteractiveServer
+@inject IJSRuntime JS
+
+<button class="btn btn-outline-secondary rounded-circle shadow-sm" style="width: 45px; height: 45px;" @onclick="ToggleTheme" title="Toggle Dark Mode">
+    @if (isDarkMode)
+    {
+        <span>☀️</span>
+    }
+    else
+    {
+        <span>🌙</span>
+    }
+</button>

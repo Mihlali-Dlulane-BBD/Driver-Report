@@ -12,12 +12,24 @@
     <ImportMap />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
+    <script>
+        var savedTheme = localStorage.getItem('driverReportTheme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    </script>
 </head>
 
 <body>
     <Routes />
     <ReconnectModal />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
+    <script src="themeSwitcher.js"></script>
+    <script>
+        Blazor.addEventListener('enhancedload', function () {
+
+        var savedTheme = localStorage.getItem('driverReportTheme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        });
+    </script>
 </body>
 
 </html>
